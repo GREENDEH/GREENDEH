@@ -69,7 +69,25 @@
 
   <footer><div class="container foot"><img src="logo.png" alt="GREENDEH"><span>© 2026 GREENDEH · Distribuidor de Insumos Hospitalarios</span><span>Cd. Cuauhtémoc, Chihuahua</span></div></footer>
   <button class="cart-btn" id="cartBtn">🛒 Pedido <span class="count" id="cartCount">0</span></button>
-  <div class="drawer" id="drawer"><div class="veil" id="veil"></div><aside class="panel"><div class="panel-head"><div><div class="kicker">Tu pedido</div><h2 style="margin:4px 0 0">Carrito</h2></div><button class="close" id="closeCart">✕</button></div><div class="cart-items" id="cartItems"></div><div class="cart-footer"><div class="total"><span>Total estimado</span><span id="cartTotal">$0.00</span></div><button class="pill primary full" id="checkout">💳 Pagar con Mercado Pago</button><p class="note">El total es estimado. GREENDEH confirma existencias, precio final y entrega.</p></div></aside></div>
+  <div class="drawer" id="drawer"><div class="veil" id="veil"></div><aside class="panel"><div class="panel-head"><div><div class="kicker">Tu pedido</div><h2 style="margin:4px 0 0">Carrito</h2></div><button class="close" id="closeCart">✕</button></div><div class="cart-items" id="cartItems"></div><div class="cart-footer">
+<div class="checkout-fields" style="display:grid;gap:10px;margin:14px 0">
+  <div>
+    <label for="buyerName" style="display:block;font-size:12px;font-weight:700;margin-bottom:5px">Nombre del cliente</label>
+    <input id="buyerName" type="text" placeholder="Nombre completo" autocomplete="name" required
+      style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #d7e3e1;border-radius:10px;font:inherit">
+  </div>
+  <div>
+    <label for="buyerPhone" style="display:block;font-size:12px;font-weight:700;margin-bottom:5px">WhatsApp del cliente</label>
+    <input id="buyerPhone" type="tel" placeholder="Ej. 6251099012" autocomplete="tel" inputmode="tel" required
+      style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #d7e3e1;border-radius:10px;font:inherit">
+  </div>
+  <div>
+    <label for="buyerEmail" style="display:block;font-size:12px;font-weight:700;margin-bottom:5px">Correo del cliente</label>
+    <input id="buyerEmail" type="email" placeholder="cliente@correo.com" autocomplete="email" required
+      style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #d7e3e1;border-radius:10px;font:inherit">
+  </div>
+</div>
+<div class="total"><span>Total estimado</span><span id="cartTotal">$0.00</span></div><button class="pill primary full" id="checkout">💳 Pagar con Mercado Pago</button><p class="note">El total es estimado. GREENDEH confirma existencias, precio final y entrega.</p></div></aside></div>
 
   <script>
     const WHATSAPP='526251099012';
