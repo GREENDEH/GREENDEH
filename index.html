@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#073d3a" />
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
   <title>GREENDEH | Insumos Hospitalarios</title>
   <meta name="description" content="GREENDEH, distribuidor de insumos hospitalarios en Cd. Cuauhtémoc, Chihuahua. Consulta catálogo, precios y compra por WhatsApp." />
   <style>
@@ -38,12 +40,8 @@
     .payment-status.success{background:#e8f8ef;color:#12643f;border:1px solid #bfe9d0}
     .payment-status.pending{background:#fff8df;color:#795d00;border:1px solid #f2df93}
     .payment-status.failure{background:#fff0f0;color:#8d2d2d;border:1px solid #efc3c3}
-    .payment-status button{float:right;border:0;background:transparent;font-size:20px;cursor:pointer;color:inherit;margin-left:10px}
-
-    .checkout-fields{display:grid;gap:10px;margin:12px 0 14px}
-    .checkout-fields label{font-size:12px;font-weight:850;color:#4d6663}
-    .checkout-fields input{width:100%;padding:12px 13px;border:1px solid #d7e6e2;border-radius:12px;font:inherit;outline:none}
-    .checkout-fields input:focus{border-color:#0b8e67;box-shadow:0 0 0 3px rgba(11,142,103,.10)}
+    .payment-status>button{float:right;border:0;background:transparent;font-size:20px;cursor:pointer;color:inherit;margin-left:10px}
+    .payment-status .pill{float:none;font-size:14px;margin:0;color:#fff}
   </style>
 </head>
 <body>
@@ -51,6 +49,9 @@
   <div id="paymentStatus" class="payment-status" role="status" aria-live="polite">
     <button type="button" id="closePaymentStatus" aria-label="Cerrar">✕</button>
     <span id="paymentStatusText"></span>
+    <div id="paymentStatusActions" style="display:none;margin-top:12px">
+      <button type="button" class="pill primary" id="sendOrderWhatsApp">💬 Enviar pedido por WhatsApp</button>
+    </div>
   </div>
 
   <div class="topbar"><div class="container"><span>📍 Cd. Cuauhtémoc, Chihuahua · C.P. 31542</span><span>✉️ GREENDEHCUAUHTEMOC@GMAIL.COM · <a href="tel:+526251099012">625 109 9012</a></span></div></div>
@@ -68,7 +69,7 @@
 
   <footer><div class="container foot"><img src="logo.png" alt="GREENDEH"><span>© 2026 GREENDEH · Distribuidor de Insumos Hospitalarios</span><span>Cd. Cuauhtémoc, Chihuahua</span></div></footer>
   <button class="cart-btn" id="cartBtn">🛒 Pedido <span class="count" id="cartCount">0</span></button>
-  <div class="drawer" id="drawer"><div class="veil" id="veil"></div><aside class="panel"><div class="panel-head"><div><div class="kicker">Tu pedido</div><h2 style="margin:4px 0 0">Carrito</h2></div><button class="close" id="closeCart">✕</button></div><div class="cart-items" id="cartItems"></div><div class="cart-footer"><div class="checkout-fields"><label for="buyerEmail">Correo para confirmación de compra</label><input id="buyerEmail" type="email" placeholder="cliente@correo.com" autocomplete="email" required></div><div class="total"><span>Total estimado</span><span id="cartTotal">$0.00</span></div><button class="pill primary full" id="checkout">💳 Pagar con Mercado Pago</button><p class="note">Usaremos este correo para identificar y confirmar tu pedido. El total es estimado. GREENDEH confirma existencias, precio final y entrega.</p></div></aside></div>
+  <div class="drawer" id="drawer"><div class="veil" id="veil"></div><aside class="panel"><div class="panel-head"><div><div class="kicker">Tu pedido</div><h2 style="margin:4px 0 0">Carrito</h2></div><button class="close" id="closeCart">✕</button></div><div class="cart-items" id="cartItems"></div><div class="cart-footer"><div class="total"><span>Total estimado</span><span id="cartTotal">$0.00</span></div><button class="pill primary full" id="checkout">💳 Pagar con Mercado Pago</button><p class="note">El total es estimado. GREENDEH confirma existencias, precio final y entrega.</p></div></aside></div>
 
   <script>
     const WHATSAPP='526251099012';
@@ -93,26 +94,34 @@
     document.getElementById('cartBtn').onclick=()=>document.getElementById('drawer').classList.add('open');document.getElementById('closeCart').onclick=()=>document.getElementById('drawer').classList.remove('open');document.getElementById('veil').onclick=()=>document.getElementById('drawer').classList.remove('open');
     const WORKER_URL = 'https://grendehmercadopago.greendehcuauhtemoc.workers.dev';
 
-    function crearNumeroPedido(){
-      const now = new Date();
-      const y = now.getFullYear();
-      const m = String(now.getMonth()+1).padStart(2,'0');
-      const d = String(now.getDate()).padStart(2,'0');
-      const rand = Math.random().toString(36).slice(2,7).toUpperCase();
-      return `GREENDEH-${y}${m}${d}-${rand}`;
-    }
-
     document.getElementById('checkout').onclick = async () => {
       if (!cart.length) {
         alert('Agrega al menos un producto.');
         return;
       }
 
+      const nameInput = document.getElementById('buyerName');
+      const phoneInput = document.getElementById('buyerPhone');
       const emailInput = document.getElementById('buyerEmail');
+
+      const buyerName = nameInput.value.trim();
+      const buyerPhone = phoneInput.value.replace(/\D/g, '');
       const buyerEmail = emailInput.value.trim();
 
+      if (!buyerName) {
+        alert('Escribe el nombre del cliente.');
+        nameInput.focus();
+        return;
+      }
+
+      if (buyerPhone.length < 10) {
+        alert('Escribe un número de WhatsApp válido, incluyendo lada.');
+        phoneInput.focus();
+        return;
+      }
+
       if (!buyerEmail || !emailInput.checkValidity()) {
-        alert('Escribe un correo válido para recibir la confirmación de tu compra.');
+        alert('Escribe un correo válido.');
         emailInput.focus();
         return;
       }
@@ -132,6 +141,22 @@
           unit_price: Number(x.price)
         }));
 
+        const orderData = {
+          order_number: orderNumber,
+          buyer_name: buyerName,
+          buyer_phone: buyerPhone,
+          buyer_email: buyerEmail,
+          items: cart.map(x => ({
+            id: x.id,
+            name: x.name,
+            qty: x.qty,
+            price: x.price
+          })),
+          total: cart.reduce((s,x)=>s+x.qty*x.price,0)
+        };
+
+        localStorage.setItem('greendeh_last_order', JSON.stringify(orderData));
+
         const response = await fetch(`${WORKER_URL}/create-preference`, {
           method: 'POST',
           headers: {
@@ -139,6 +164,8 @@
           },
           body: JSON.stringify({
             items,
+            buyer_name: buyerName,
+            buyer_phone: buyerPhone,
             buyer_email: buyerEmail,
             order_number: orderNumber,
             success_url: window.location.origin + window.location.pathname,
@@ -153,11 +180,6 @@
           console.error('Error Mercado Pago:', data);
           throw new Error(data.error || 'No se pudo crear el pago');
         }
-
-        localStorage.setItem('greendeh_last_order', JSON.stringify({
-          order_number: orderNumber,
-          buyer_email: buyerEmail
-        }));
 
         window.location.href = data.init_point;
 
@@ -177,28 +199,68 @@
 
       const box = document.getElementById('paymentStatus');
       const txt = document.getElementById('paymentStatusText');
+      const actions = document.getElementById('paymentStatusActions');
+      const saved = JSON.parse(localStorage.getItem('greendeh_last_order') || '{}');
 
       if(status === 'approved'){
         box.className = 'payment-status success show';
-        const saved = JSON.parse(localStorage.getItem('greendeh_last_order') || '{}');
-        txt.textContent = `✅ Pago realizado correctamente. Pedido ${saved.order_number || ''}. Gracias por tu compra. GREENDEH confirmará existencias y entrega.`;
+        txt.textContent = `✅ Pago realizado correctamente. Pedido ${saved.order_number || ''}. Ahora envía la confirmación por WhatsApp para coordinar existencias y entrega.`;
+        actions.style.display = 'block';
+
         cart = [];
         updateCart();
       } else if(status === 'pending' || status === 'in_process' || status === 'in_mediation'){
         box.className = 'payment-status pending show';
-        txt.textContent = '⏳ Tu pago está pendiente de confirmación. Mercado Pago te notificará cuando cambie el estado.';
+        txt.textContent = `⏳ Tu pago está pendiente de confirmación. Pedido ${saved.order_number || ''}. Mercado Pago te notificará cuando cambie el estado.`;
+        actions.style.display = 'none';
       } else {
         box.className = 'payment-status failure show';
-        txt.textContent = '❌ El pago no se completó. Puedes regresar al carrito e intentarlo nuevamente.';
+        txt.textContent = `❌ El pago no se completó. Pedido ${saved.order_number || ''}. Puedes regresar al carrito e intentarlo nuevamente.`;
+        actions.style.display = 'none';
       }
 
       const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
       window.history.replaceState({}, document.title, cleanUrl);
     }
 
+    function abrirConfirmacionWhatsApp(){
+      const saved = JSON.parse(localStorage.getItem('greendeh_last_order') || '{}');
+
+      if(!saved.order_number){
+        alert('No se encontró la información del pedido.');
+        return;
+      }
+
+      const lines = (saved.items || []).map(x =>
+        `• ${x.qty} x ${x.name} — ${money(x.qty * x.price)}`
+      ).join('\n');
+
+      const msg =
+`Hola GREENDEH, ya realicé mi pago por Mercado Pago.
+
+Pedido: ${saved.order_number}
+Cliente: ${saved.buyer_name || ''}
+WhatsApp del cliente: ${saved.buyer_phone || ''}
+Correo: ${saved.buyer_email || ''}
+
+Productos:
+${lines}
+
+Total pagado: ${money(Number(saved.total || 0))}
+
+Quedo pendiente para confirmar existencias y coordinar la entrega.`;
+
+      window.open(
+        `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,
+        '_blank'
+      );
+    }
+
+
     document.getElementById('closePaymentStatus').onclick = () => {
       document.getElementById('paymentStatus').classList.remove('show');
     };
+    document.getElementById('sendOrderWhatsApp').onclick = abrirConfirmacionWhatsApp;
 
     render(); updateCart(); mostrarEstadoPago();
   </script>
