@@ -112,6 +112,19 @@
     document.getElementById('cartBtn').onclick=()=>document.getElementById('drawer').classList.add('open');document.getElementById('closeCart').onclick=()=>document.getElementById('drawer').classList.remove('open');document.getElementById('veil').onclick=()=>document.getElementById('drawer').classList.remove('open');
     const WORKER_URL = 'https://grendehmercadopago.greendehcuauhtemoc.workers.dev';
 
+
+    function crearNumeroPedido(){
+      const now = new Date();
+      const fecha =
+        now.getFullYear().toString() +
+        String(now.getMonth()+1).padStart(2,'0') +
+        String(now.getDate()).padStart(2,'0');
+
+      const codigo = Math.random().toString(36).slice(2,7).toUpperCase();
+      return `GREENDEH-${fecha}-${codigo}`;
+    }
+
+
     document.getElementById('checkout').onclick = async () => {
       if (!cart.length) {
         alert('Agrega al menos un producto.');
