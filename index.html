@@ -73,7 +73,7 @@
     document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');active=b.dataset.filter;render()}));
     document.getElementById('catalogSearch').addEventListener('input',e=>{searchTerm=e.target.value.trim().toLowerCase();render();});
     document.getElementById('cartBtn').onclick=()=>document.getElementById('drawer').classList.add('open');document.getElementById('closeCart').onclick=()=>document.getElementById('drawer').classList.remove('open');document.getElementById('veil').onclick=()=>document.getElementById('drawer').classList.remove('open');
-    const WORKER_URL = 'https://grendehmercadopago.grendehcuauhtemoc.workers.dev';
+    const WORKER_URL = 'https://grendehmercadopago.greendehcuauhtemoc.workers.dev';
 
     document.getElementById('checkout').onclick = async () => {
       if (!cart.length) {
