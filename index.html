@@ -32,9 +32,27 @@
     .cart-btn{position:fixed;right:20px;bottom:20px;z-index:70;background:#0b8e67;color:#fff;border:0;border-radius:18px;padding:13px 17px;font-weight:900;box-shadow:0 15px 35px rgba(4,92,68,.34);cursor:pointer}.count{display:inline-grid;place-items:center;min-width:23px;height:23px;border-radius:999px;background:white;color:#0a785a;margin-left:7px;padding:0 6px}.drawer{position:fixed;inset:0;z-index:100;pointer-events:none}.drawer.open{pointer-events:auto}.veil{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;transition:.25s}.drawer.open .veil{opacity:1}.panel{position:absolute;right:0;top:0;height:100%;width:min(440px,92vw);background:#fff;transform:translateX(100%);transition:.28s;padding:24px;display:flex;flex-direction:column}.drawer.open .panel{transform:translateX(0)}.panel-head{display:flex;justify-content:space-between;align-items:center}.close{border:0;background:#edf5f3;border-radius:10px;width:38px;height:38px;cursor:pointer}.cart-items{display:grid;gap:10px;margin:20px 0;overflow:auto}.cart-item{display:grid;grid-template-columns:1fr auto;gap:10px;padding:13px;border:1px solid #e0ece8;border-radius:14px}.cart-item small{color:var(--muted)}.cart-footer{margin-top:auto;border-top:1px solid #e4efec;padding-top:18px}.total{display:flex;justify-content:space-between;font-size:20px;font-weight:950;margin-bottom:14px}.full{width:100%}.empty{color:#6d8582;text-align:center;padding:34px 0}
     @media(max-width:920px){.navlinks a:not(.pill){display:none}.hero-grid,.paygrid{grid-template-columns:1fr}.showcase{max-width:600px}.catalog{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:620px){.topbar{font-size:12px}.topbar .container{justify-content:center;text-align:center;padding:7px 0}.brand img{height:58px;border-radius:10px}nav{height:72px}.navlinks>a:not(.pill){display:none}.hero-grid{padding:48px 0;min-height:auto;gap:36px}.hero p{font-size:16px}.showcase{transform:none}.catalog,.steps{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:14px}section{padding:62px 0}.product-art{height:170px}.hero-actions .pill{width:100%}.trust{gap:12px}.navlinks{gap:7px}.navlinks .pill{padding:10px 12px;font-size:12px}}
+
+    .payment-status{display:none;position:fixed;left:50%;top:20px;transform:translateX(-50%);z-index:200;width:min(620px,calc(100% - 28px));padding:16px 18px;border-radius:16px;box-shadow:0 18px 45px rgba(0,0,0,.22);font-weight:800;line-height:1.45}
+    .payment-status.show{display:block}
+    .payment-status.success{background:#e8f8ef;color:#12643f;border:1px solid #bfe9d0}
+    .payment-status.pending{background:#fff8df;color:#795d00;border:1px solid #f2df93}
+    .payment-status.failure{background:#fff0f0;color:#8d2d2d;border:1px solid #efc3c3}
+    .payment-status button{float:right;border:0;background:transparent;font-size:20px;cursor:pointer;color:inherit;margin-left:10px}
+
+    .checkout-fields{display:grid;gap:10px;margin:12px 0 14px}
+    .checkout-fields label{font-size:12px;font-weight:850;color:#4d6663}
+    .checkout-fields input{width:100%;padding:12px 13px;border:1px solid #d7e6e2;border-radius:12px;font:inherit;outline:none}
+    .checkout-fields input:focus{border-color:#0b8e67;box-shadow:0 0 0 3px rgba(11,142,103,.10)}
   </style>
 </head>
 <body>
+
+  <div id="paymentStatus" class="payment-status" role="status" aria-live="polite">
+    <button type="button" id="closePaymentStatus" aria-label="Cerrar">✕</button>
+    <span id="paymentStatusText"></span>
+  </div>
+
   <div class="topbar"><div class="container"><span>📍 Cd. Cuauhtémoc, Chihuahua · C.P. 31542</span><span>✉️ GREENDEHCUAUHTEMOC@GMAIL.COM · <a href="tel:+526251099012">625 109 9012</a></span></div></div>
   <header><div class="container"><nav><a class="brand" href="#inicio"><img src="logo.png" alt="GREENDEH - Distribuidor de Insumos Hospitalarios"></a><div class="navlinks"><a href="#catalogo">Catálogo</a><a href="#comprar">Cómo comprar</a><a href="#pago">Pago</a><a class="pill primary" href="https://wa.me/526251099012?text=Hola%20GREENDEH,%20quiero%20una%20cotizaci%C3%B3n" target="_blank" rel="noopener">WhatsApp</a></div></nav></div></header>
 
@@ -50,7 +68,7 @@
 
   <footer><div class="container foot"><img src="logo.png" alt="GREENDEH"><span>© 2026 GREENDEH · Distribuidor de Insumos Hospitalarios</span><span>Cd. Cuauhtémoc, Chihuahua</span></div></footer>
   <button class="cart-btn" id="cartBtn">🛒 Pedido <span class="count" id="cartCount">0</span></button>
-  <div class="drawer" id="drawer"><div class="veil" id="veil"></div><aside class="panel"><div class="panel-head"><div><div class="kicker">Tu pedido</div><h2 style="margin:4px 0 0">Carrito</h2></div><button class="close" id="closeCart">✕</button></div><div class="cart-items" id="cartItems"></div><div class="cart-footer"><div class="total"><span>Total estimado</span><span id="cartTotal">$0.00</span></div><button class="pill primary full" id="checkout">💳 Pagar con Mercado Pago</button><p class="note">El total es estimado. GREENDEH confirma existencias, precio final y entrega.</p></div></aside></div>
+  <div class="drawer" id="drawer"><div class="veil" id="veil"></div><aside class="panel"><div class="panel-head"><div><div class="kicker">Tu pedido</div><h2 style="margin:4px 0 0">Carrito</h2></div><button class="close" id="closeCart">✕</button></div><div class="cart-items" id="cartItems"></div><div class="cart-footer"><div class="checkout-fields"><label for="buyerEmail">Correo para confirmación de compra</label><input id="buyerEmail" type="email" placeholder="cliente@correo.com" autocomplete="email" required></div><div class="total"><span>Total estimado</span><span id="cartTotal">$0.00</span></div><button class="pill primary full" id="checkout">💳 Pagar con Mercado Pago</button><p class="note">Usaremos este correo para identificar y confirmar tu pedido. El total es estimado. GREENDEH confirma existencias, precio final y entrega.</p></div></aside></div>
 
   <script>
     const WHATSAPP='526251099012';
@@ -75,14 +93,33 @@
     document.getElementById('cartBtn').onclick=()=>document.getElementById('drawer').classList.add('open');document.getElementById('closeCart').onclick=()=>document.getElementById('drawer').classList.remove('open');document.getElementById('veil').onclick=()=>document.getElementById('drawer').classList.remove('open');
     const WORKER_URL = 'https://grendehmercadopago.greendehcuauhtemoc.workers.dev';
 
+    function crearNumeroPedido(){
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth()+1).padStart(2,'0');
+      const d = String(now.getDate()).padStart(2,'0');
+      const rand = Math.random().toString(36).slice(2,7).toUpperCase();
+      return `GREENDEH-${y}${m}${d}-${rand}`;
+    }
+
     document.getElementById('checkout').onclick = async () => {
       if (!cart.length) {
         alert('Agrega al menos un producto.');
         return;
       }
 
+      const emailInput = document.getElementById('buyerEmail');
+      const buyerEmail = emailInput.value.trim();
+
+      if (!buyerEmail || !emailInput.checkValidity()) {
+        alert('Escribe un correo válido para recibir la confirmación de tu compra.');
+        emailInput.focus();
+        return;
+      }
+
       const checkoutBtn = document.getElementById('checkout');
       const textoOriginal = checkoutBtn.textContent;
+      const orderNumber = crearNumeroPedido();
 
       checkoutBtn.disabled = true;
       checkoutBtn.textContent = 'Preparando pago...';
@@ -101,10 +138,12 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            items: items,
-            success_url: window.location.href,
-            failure_url: window.location.href,
-            pending_url: window.location.href
+            items,
+            buyer_email: buyerEmail,
+            order_number: orderNumber,
+            success_url: window.location.origin + window.location.pathname,
+            failure_url: window.location.origin + window.location.pathname,
+            pending_url: window.location.origin + window.location.pathname
           })
         });
 
@@ -115,6 +154,11 @@
           throw new Error(data.error || 'No se pudo crear el pago');
         }
 
+        localStorage.setItem('greendeh_last_order', JSON.stringify({
+          order_number: orderNumber,
+          buyer_email: buyerEmail
+        }));
+
         window.location.href = data.init_point;
 
       } catch (error) {
@@ -124,7 +168,39 @@
         checkoutBtn.textContent = textoOriginal;
       }
     };
-    render(); updateCart();
+
+    function mostrarEstadoPago(){
+      const params = new URLSearchParams(window.location.search);
+      const status = (params.get('status') || params.get('collection_status') || '').toLowerCase();
+
+      if(!status) return;
+
+      const box = document.getElementById('paymentStatus');
+      const txt = document.getElementById('paymentStatusText');
+
+      if(status === 'approved'){
+        box.className = 'payment-status success show';
+        const saved = JSON.parse(localStorage.getItem('greendeh_last_order') || '{}');
+        txt.textContent = `✅ Pago realizado correctamente. Pedido ${saved.order_number || ''}. Gracias por tu compra. GREENDEH confirmará existencias y entrega.`;
+        cart = [];
+        updateCart();
+      } else if(status === 'pending' || status === 'in_process' || status === 'in_mediation'){
+        box.className = 'payment-status pending show';
+        txt.textContent = '⏳ Tu pago está pendiente de confirmación. Mercado Pago te notificará cuando cambie el estado.';
+      } else {
+        box.className = 'payment-status failure show';
+        txt.textContent = '❌ El pago no se completó. Puedes regresar al carrito e intentarlo nuevamente.';
+      }
+
+      const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+
+    document.getElementById('closePaymentStatus').onclick = () => {
+      document.getElementById('paymentStatus').classList.remove('show');
+    };
+
+    render(); updateCart(); mostrarEstadoPago();
   </script>
 </body>
 </html>
