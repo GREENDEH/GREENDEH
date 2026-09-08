@@ -54,6 +54,102 @@
     .qty-btn:hover{background:#dff2ec}
     .qty-number{min-width:30px;text-align:center;font-weight:950;color:#173f3b}
 
+  
+    /* --- Productos destacados funcionales + IVA --- */
+    .mini{
+      grid-template-columns:64px 1fr auto;
+    }
+    .mini-actions{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:6px;
+    }
+    .mini-add{
+      border:0;
+      border-radius:10px;
+      padding:8px 11px;
+      background:#e5f7ee;
+      color:#087454;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .mini-add:hover{background:#d6f1e5}
+    .mini-price-note{
+      font-size:10px;
+      color:#6d8582;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .featured-search{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:8px;
+      padding:12px;
+      background:#fff;
+      border:1px solid #e5efec;
+      border-radius:16px;
+    }
+    .featured-search input{
+      min-width:0;
+      border:1px solid #d7e6e2;
+      border-radius:11px;
+      padding:11px 12px;
+      font:inherit;
+      outline:none;
+    }
+    .featured-search button{
+      border:0;
+      border-radius:11px;
+      padding:11px 14px;
+      background:#0b776d;
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .tax-note{
+      display:inline-block;
+      margin-top:5px;
+      padding:4px 7px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:900;
+      background:#f0f7f5;
+      color:#4d6b67;
+    }
+    .tax-note.taxable{
+      background:#fff2e8;
+      color:#9b4d12;
+    }
+    .cart-money-row{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      padding:4px 0;
+      color:#4f6965;
+      font-size:14px;
+      font-weight:750;
+    }
+    .cart-money-row.grand{
+      margin-top:6px;
+      padding-top:12px;
+      border-top:1px solid #e4efec;
+      font-size:20px;
+      color:#102320;
+      font-weight:950;
+    }
+    .cart-tax-label{
+      display:inline-block;
+      margin-top:6px;
+      font-size:11px;
+      font-weight:850;
+      color:#6c837f;
+    }
+    @media(max-width:620px){
+      .featured-search{grid-template-columns:1fr}
+      .featured-search button{width:100%}
+    }
+
   </style>
 </head>
 <body>
@@ -77,7 +173,39 @@
   <header><div class="container"><nav><a class="brand" href="#inicio"><img src="logo.png" alt="GREENDEH - Distribuidor de Insumos Hospitalarios"></a><div class="navlinks"><a href="#catalogo">Catálogo</a><a href="#comprar">Cómo comprar</a><a href="#pago">Pago</a><a class="pill primary" href="https://wa.me/526251099012?text=Hola%20GREENDEH,%20quiero%20una%20cotizaci%C3%B3n" target="_blank" rel="noopener">WhatsApp</a></div></nav></div></header>
 
   <main>
-    <section class="hero" id="inicio"><div class="container hero-grid"><div><div class="eyebrow"><span class="dot"></span> Insumos hospitalarios con atención directa</div><h1>Tu proveedor médico, más cerca y más fácil.</h1><p>Consulta productos, revisa precios y arma tu pedido en minutos. En GREENDEH atendemos clínicas, consultorios y profesionales de la salud con respuesta directa por WhatsApp.</p><div class="hero-actions"><a class="pill primary" href="#catalogo">Ver catálogo</a><a class="pill ghost" href="https://wa.me/526251099012?text=Hola%20GREENDEH,%20necesito%20ayuda%20con%20un%20pedido" target="_blank" rel="noopener">Hablar con ventas</a></div><div class="trust"><span>Compra fácil</span><span>Atención por WhatsApp</span><span>Entrega a confirmar</span></div></div><div class="showcase"><div class="showcase-inner"><div class="show-head"><strong>Productos destacados</strong><span class="badge">Disponible para cotizar</span></div><div class="mini-products"><div class="mini"><div class="mini-art">🩺</div><div><strong>Bulto de cirugía desechable mayor</strong><small>Material quirúrgico</small></div><b>$280</b></div><div class="mini"><div class="mini-art">💧</div><div><strong>Solución fisiológica 1000 ml PISA</strong><small>Soluciones</small></div><b>$55</b></div><div class="mini"><div class="mini-art">📦</div><div><strong>¿Buscas otro producto?</strong><small>Te lo cotizamos por WhatsApp</small></div><b>Consultar</b></div></div></div></div></div></section>
+    <section class="hero" id="inicio"><div class="container hero-grid"><div><div class="eyebrow"><span class="dot"></span> Insumos hospitalarios con atención directa</div><h1>Tu proveedor médico, más cerca y más fácil.</h1><p>Consulta productos, revisa precios y arma tu pedido en minutos. En GREENDEH atendemos clínicas, consultorios y profesionales de la salud con respuesta directa por WhatsApp.</p><div class="hero-actions"><a class="pill primary" href="#catalogo">Ver catálogo</a><a class="pill ghost" href="https://wa.me/526251099012?text=Hola%20GREENDEH,%20necesito%20ayuda%20con%20un%20pedido" target="_blank" rel="noopener">Hablar con ventas</a></div><div class="trust"><span>Compra fácil</span><span>Atención por WhatsApp</span><span>Entrega a confirmar</span></div></div><div class="showcase"><div class="showcase-inner">
+  <div class="show-head"><strong>Productos destacados</strong><span class="badge">Compra directa</span></div>
+  <div class="mini-products">
+    <div class="mini">
+      <div class="mini-art">🩺</div>
+      <div>
+        <strong>Bulto de cirugía desechable mayor</strong>
+        <small>Material quirúrgico</small>
+      </div>
+      <div class="mini-actions">
+        <b id="featuredPrice19">$0</b>
+        <span class="mini-price-note">IVA incluido</span>
+        <button class="mini-add" type="button" onclick="add(19)">+ Agregar</button>
+      </div>
+    </div>
+    <div class="mini">
+      <div class="mini-art">💧</div>
+      <div>
+        <strong>Solución fisiológica 1000 ml PISA</strong>
+        <small>Soluciones</small>
+      </div>
+      <div class="mini-actions">
+        <b id="featuredPrice110">$0</b>
+        <span class="mini-price-note">Sin IVA</span>
+        <button class="mini-add" type="button" onclick="add(110)">+ Agregar</button>
+      </div>
+    </div>
+    <div class="featured-search">
+      <input id="featuredSearch" type="search" placeholder="¿Buscas otro producto?" aria-label="Buscar otro producto">
+      <button type="button" id="featuredSearchBtn">Buscar</button>
+    </div>
+  </div>
+</div></div></div></section>
 
     <section id="catalogo"><div class="container"><div class="section-head"><div><div class="kicker">Catálogo GREENDEH</div><h2>Más de 137 productos para tu práctica diaria</h2></div><p>Los precios publicados pueden cambiar por disponibilidad, presentación o volumen. Confirma existencia y precio final antes de pagar. Medicamentos: venta sujeta a disponibilidad y a los requisitos aplicables.</p></div><div style="margin:0 0 14px"><input id="catalogSearch" type="search" placeholder="Buscar producto…" aria-label="Buscar producto" style="width:100%;max-width:520px;padding:13px 16px;border:1px solid #d7e6e2;border-radius:14px;font:inherit;outline:none"></div><div class="filters"><button class="filter active" data-filter="Todos">Todos</button><button class="filter" data-filter="Medicamentos">Medicamentos</button><button class="filter" data-filter="Curación">Curación</button><button class="filter" data-filter="Soluciones">Soluciones</button><button class="filter" data-filter="Protección">Protección</button><button class="filter" data-filter="Quirúrgico">Quirúrgico</button><button class="filter" data-filter="Ortopedia">Ortopedia</button><button class="filter" data-filter="Respiratorio y terapia">Respiratorio y terapia</button><button class="filter" data-filter="Otros">Otros</button></div><div class="catalog" id="catalogGrid"></div></div></section>
 
@@ -106,7 +234,9 @@
       style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #d7e3e1;border-radius:10px;font:inherit">
   </div>
 </div>
-<div class="total"><span>Total estimado</span><span id="cartTotal">$0.00</span></div><button class="pill primary full" id="checkout">💳 Pagar con Mercado Pago</button><p class="note">El total es estimado. GREENDEH confirma existencias, precio final y entrega.</p></div></aside></div>
+<div class="cart-money-row"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+<div class="cart-money-row"><span>IVA 16%</span><span id="cartIVA">$0.00</span></div>
+<div class="cart-money-row grand"><span>Total estimado</span><span id="cartTotal">$0.00</span></div><button class="pill primary full" id="checkout">💳 Pagar con Mercado Pago</button><p class="note">El total es estimado. GREENDEH confirma existencias, precio final y entrega.</p></div></aside></div>
 
   <script>
     const WHATSAPP='526251099012';
@@ -122,12 +252,64 @@
     };
     let cart=[]; let active='Todos'; let searchTerm='';
     const money=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n);
-    function render(){const grid=document.getElementById('catalogGrid');const list=products.filter(p=>(active==='Todos'||p.category===active)&&p.name.toLowerCase().includes(searchTerm));grid.innerHTML=list.map(p=>`<article class="product"><div class="product-art"><span class="cat">${p.category}</span>${art[p.icon]}</div><div class="product-body"><h3>${p.name}</h3><p>${p.desc}</p><div class="price-row"><div class="price">${p.price!==null?money(p.price):'Cotizar'}${p.price!==null?'<br><small>MXN</small>':''}</div>${p.price!==null?`<button class="add" aria-label="Agregar ${p.name}" onclick="add(${p.id})">+</button>`:`<a class="pill ghost" style="padding:9px 12px;font-size:12px" target="_blank" rel="noopener" href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola GREENDEH, quiero cotizar: '+p.name)}">Cotizar</a>`}</div></div></article>`).join('');}
+    // Regla solicitada por GREENDEH:
+    // Medicamentos y soluciones: sin IVA.
+    // Resto de insumos: IVA 16%.
+    // Excepciones porque actualmente están catalogadas como "Medicamentos" pero son insumos.
+    const taxableCategoryExceptions = new Set([23,39]);
+
+    function isTaxable(product){
+      if(!product) return false;
+      if(taxableCategoryExceptions.has(product.id)) return true;
+      return !(product.category === 'Medicamentos' || product.category === 'Soluciones');
+    }
+
+    function unitIVA(product){
+      return isTaxable(product) ? Number((product.price * 0.16).toFixed(2)) : 0;
+    }
+
+    function unitFinal(product){
+      return Number((product.price + unitIVA(product)).toFixed(2));
+    }
+
+    function cartAmounts(){
+      const subtotal = cart.reduce((s,x)=>s + x.price * x.qty, 0);
+      const iva = cart.reduce((s,x)=>s + unitIVA(x) * x.qty, 0);
+      return {
+        subtotal: Number(subtotal.toFixed(2)),
+        iva: Number(iva.toFixed(2)),
+        total: Number((subtotal + iva).toFixed(2))
+      };
+    }
+
+    function render(){
+      const grid=document.getElementById('catalogGrid');
+      const list=products.filter(p=>(active==='Todos'||p.category===active)&&p.name.toLowerCase().includes(searchTerm));
+      grid.innerHTML=list.map(p=>`
+        <article class="product">
+          <div class="product-art"><span class="cat">${p.category}</span>${art[p.icon]}</div>
+          <div class="product-body">
+            <h3>${p.name}</h3>
+            <p>${p.desc}</p>
+            <div class="price-row">
+              <div class="price">
+                ${p.price!==null?money(unitFinal(p)):'Cotizar'}
+                ${p.price!==null?`<br><small>MXN</small><br><span class="tax-note ${isTaxable(p)?'taxable':''}">${isTaxable(p)?'IVA 16% incluido':'Sin IVA'}</span>`:''}
+              </div>
+              ${p.price!==null
+                ? `<button class="add" aria-label="Agregar ${p.name}" onclick="add(${p.id})">+</button>`
+                : `<a class="pill ghost" style="padding:9px 12px;font-size:12px" target="_blank" rel="noopener" href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola GREENDEH, quiero cotizar: '+p.name)}">Cotizar</a>`}
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
     function add(id){const p=products.find(x=>x.id===id);const row=cart.find(x=>x.id===id);if(row)row.qty++;else cart.push({...p,qty:1});updateCart();document.getElementById('drawer').classList.add('open')}
     function changeQty(id,delta){const row=cart.find(x=>x.id===id);if(!row)return;row.qty+=delta;if(row.qty<=0)cart=cart.filter(x=>x.id!==id);updateCart()}
     function updateCart(){
       document.getElementById('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0);
       const wrap=document.getElementById('cartItems');
+
       if(!cart.length){
         wrap.innerHTML='<div class="empty">Tu carrito está vacío.<br>Agrega productos del catálogo.</div>';
       }else{
@@ -135,20 +317,49 @@
           <div class="cart-item">
             <div>
               <strong>${x.name}</strong><br>
-              <small>${money(x.price)} c/u</small>
-              <div class="cart-qty">
+              <small>${money(unitFinal(x))} c/u</small><br>
+              <span class="cart-tax-label">${isTaxable(x)?'IVA 16% incluido':'Sin IVA'}</span>
+              <div class="cart-qty" aria-label="Cantidad de ${x.name}">
                 <button class="qty-btn" type="button" onclick="changeQty(${x.id},-1)" aria-label="Restar uno">−</button>
                 <span class="qty-number">${x.qty}</span>
                 <button class="qty-btn" type="button" onclick="changeQty(${x.id},1)" aria-label="Sumar uno">+</button>
               </div>
             </div>
-            <div style="text-align:right"><strong>${money(x.qty*x.price)}</strong></div>
-          </div>`).join('');
+            <div style="text-align:right">
+              <strong>${money(unitFinal(x)*x.qty)}</strong>
+            </div>
+          </div>
+        `).join('');
       }
-      document.getElementById('cartTotal').textContent=money(cart.reduce((s,x)=>s+x.qty*x.price,0));
+
+      const amounts=cartAmounts();
+      document.getElementById('cartSubtotal').textContent=money(amounts.subtotal);
+      document.getElementById('cartIVA').textContent=money(amounts.iva);
+      document.getElementById('cartTotal').textContent=money(amounts.total);
     }
     document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');active=b.dataset.filter;render()}));
     document.getElementById('catalogSearch').addEventListener('input',e=>{searchTerm=e.target.value.trim().toLowerCase();render();});
+    function buscarDesdeDestacados(){
+      const q=document.getElementById('featuredSearch').value.trim();
+      const catalogInput=document.getElementById('catalogSearch');
+      catalogInput.value=q;
+      searchTerm=q.toLowerCase();
+      active='Todos';
+      document.querySelectorAll('.filter').forEach(x=>x.classList.toggle('active',x.dataset.filter==='Todos'));
+      render();
+      document.getElementById('catalogo').scrollIntoView({behavior:'smooth',block:'start'});
+      setTimeout(()=>catalogInput.focus(),350);
+    }
+
+    document.getElementById('featuredSearchBtn').onclick=buscarDesdeDestacados;
+    document.getElementById('featuredSearch').addEventListener('keydown',e=>{
+      if(e.key==='Enter') buscarDesdeDestacados();
+    });
+
+    // Precios de productos destacados según la regla de IVA.
+    document.getElementById('featuredPrice19').textContent=money(unitFinal(products.find(p=>p.id===19)));
+    document.getElementById('featuredPrice110').textContent=money(unitFinal(products.find(p=>p.id===110)));
+
     document.getElementById('cartBtn').onclick=()=>document.getElementById('drawer').classList.add('open');document.getElementById('closeCart').onclick=()=>document.getElementById('drawer').classList.remove('open');document.getElementById('veil').onclick=()=>document.getElementById('drawer').classList.remove('open');
     const WORKER_URL = 'https://grendehmercadopago.greendehcuauhtemoc.workers.dev';
 
@@ -209,7 +420,7 @@
           id: String(x.id),
           title: x.name,
           quantity: x.qty,
-          unit_price: Number(x.price)
+          unit_price: Number(unitFinal(x))
         }));
 
         const orderData = {
@@ -221,9 +432,14 @@
             id: x.id,
             name: x.name,
             qty: x.qty,
-            price: x.price
+            price: x.price,
+            taxable: isTaxable(x),
+            iva_unit: unitIVA(x),
+            final_unit_price: unitFinal(x)
           })),
-          total: cart.reduce((s,x)=>s+x.qty*x.price,0)
+          subtotal: cartAmounts().subtotal,
+          iva: cartAmounts().iva,
+          total: cartAmounts().total
         };
 
         localStorage.setItem('greendeh_last_order', JSON.stringify(orderData));
@@ -303,7 +519,7 @@
       }
 
       const lines = (saved.items || []).map(x =>
-        `• ${x.qty} x ${x.name} — ${money(x.qty * x.price)}`
+        `• ${x.qty} x ${x.name} — ${money(x.qty * Number(x.final_unit_price ?? x.price))}${x.taxable ? ' (IVA incluido)' : ' (sin IVA)'}`
       ).join('\n');
 
       const msg =
@@ -317,6 +533,8 @@ Correo: ${saved.buyer_email || ''}
 Productos:
 ${lines}
 
+Subtotal: ${money(Number(saved.subtotal || 0))}
+IVA 16%: ${money(Number(saved.iva || 0))}
 Total pagado: ${money(Number(saved.total || 0))}
 
 Quedo pendiente para confirmar existencias y coordinar la entrega.`;
