@@ -42,6 +42,18 @@
     .payment-status.failure{background:#fff0f0;color:#8d2d2d;border:1px solid #efc3c3}
     .payment-status>button{float:right;border:0;background:transparent;font-size:20px;cursor:pointer;color:inherit;margin-left:10px}
     .payment-status .pill{float:none;font-size:14px;margin:0;color:#fff}
+  
+    /* --- GREENDEH · Tema 16 de Septiembre --- */
+    .sept-banner{background:linear-gradient(90deg,#087f45 0 33.33%,#ffffff 33.33% 66.66%,#c62828 66.66%);color:#073d3a;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 5px 20px rgba(0,0,0,.08)}
+    .sept-banner .container{min-height:48px;display:flex;align-items:center;justify-content:center;gap:12px;text-align:center;font-weight:950;letter-spacing:.02em;padding:8px 0}
+    .sept-banner .sept-message{background:rgba(255,255,255,.92);padding:8px 16px;border-radius:999px;border:1px solid rgba(7,61,58,.10);box-shadow:0 5px 16px rgba(0,0,0,.08)}
+    .sept-accent{display:inline-block;margin-left:6px;font-weight:900;color:#a71919}
+    .cart-item{grid-template-columns:1fr auto;align-items:center}
+    .cart-qty{display:flex;align-items:center;justify-content:flex-start;gap:8px;margin-top:8px}
+    .qty-btn{width:32px;height:32px;border:1px solid #d7e6e2;border-radius:9px;background:#edf7f4;color:#08665b;font-size:20px;line-height:1;font-weight:900;cursor:pointer;display:grid;place-items:center}
+    .qty-btn:hover{background:#dff2ec}
+    .qty-number{min-width:30px;text-align:center;font-weight:950;color:#173f3b}
+
   </style>
 </head>
 <body>
@@ -51,6 +63,13 @@
     <span id="paymentStatusText"></span>
     <div id="paymentStatusActions" style="display:none;margin-top:12px">
       <button type="button" class="pill primary" id="sendOrderWhatsApp">💬 Enviar pedido por WhatsApp</button>
+    </div>
+  </div>
+
+  
+  <div class="sept-banner" aria-label="Celebración del 16 de septiembre">
+    <div class="container">
+      <div class="sept-message">🇲🇽 ¡Viva México! <span class="sept-accent">GREENDEH celebra este 16 de Septiembre</span> 🇲🇽</div>
     </div>
   </div>
 
@@ -105,8 +124,29 @@
     const money=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n);
     function render(){const grid=document.getElementById('catalogGrid');const list=products.filter(p=>(active==='Todos'||p.category===active)&&p.name.toLowerCase().includes(searchTerm));grid.innerHTML=list.map(p=>`<article class="product"><div class="product-art"><span class="cat">${p.category}</span>${art[p.icon]}</div><div class="product-body"><h3>${p.name}</h3><p>${p.desc}</p><div class="price-row"><div class="price">${p.price!==null?money(p.price):'Cotizar'}${p.price!==null?'<br><small>MXN</small>':''}</div>${p.price!==null?`<button class="add" aria-label="Agregar ${p.name}" onclick="add(${p.id})">+</button>`:`<a class="pill ghost" style="padding:9px 12px;font-size:12px" target="_blank" rel="noopener" href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola GREENDEH, quiero cotizar: '+p.name)}">Cotizar</a>`}</div></div></article>`).join('');}
     function add(id){const p=products.find(x=>x.id===id);const row=cart.find(x=>x.id===id);if(row)row.qty++;else cart.push({...p,qty:1});updateCart();document.getElementById('drawer').classList.add('open')}
-    function removeOne(id){const row=cart.find(x=>x.id===id);if(!row)return;if(row.qty>1)row.qty--;else cart=cart.filter(x=>x.id!==id);updateCart()}
-    function updateCart(){document.getElementById('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0);const wrap=document.getElementById('cartItems');if(!cart.length)wrap.innerHTML='<div class="empty">Tu carrito está vacío.<br>Agrega productos del catálogo.</div>';else wrap.innerHTML=cart.map(x=>`<div class="cart-item"><div><strong>${x.name}</strong><br><small>${x.qty} × ${money(x.price)}</small></div><div><strong>${money(x.qty*x.price)}</strong><br><button onclick="removeOne(${x.id})" style="margin-top:6px;border:0;background:#edf5f3;border-radius:8px;cursor:pointer">−</button></div></div>`).join('');document.getElementById('cartTotal').textContent=money(cart.reduce((s,x)=>s+x.qty*x.price,0));}
+    function changeQty(id,delta){const row=cart.find(x=>x.id===id);if(!row)return;row.qty+=delta;if(row.qty<=0)cart=cart.filter(x=>x.id!==id);updateCart()}
+    function updateCart(){
+      document.getElementById('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0);
+      const wrap=document.getElementById('cartItems');
+      if(!cart.length){
+        wrap.innerHTML='<div class="empty">Tu carrito está vacío.<br>Agrega productos del catálogo.</div>';
+      }else{
+        wrap.innerHTML=cart.map(x=>`
+          <div class="cart-item">
+            <div>
+              <strong>${x.name}</strong><br>
+              <small>${money(x.price)} c/u</small>
+              <div class="cart-qty">
+                <button class="qty-btn" type="button" onclick="changeQty(${x.id},-1)" aria-label="Restar uno">−</button>
+                <span class="qty-number">${x.qty}</span>
+                <button class="qty-btn" type="button" onclick="changeQty(${x.id},1)" aria-label="Sumar uno">+</button>
+              </div>
+            </div>
+            <div style="text-align:right"><strong>${money(x.qty*x.price)}</strong></div>
+          </div>`).join('');
+      }
+      document.getElementById('cartTotal').textContent=money(cart.reduce((s,x)=>s+x.qty*x.price,0));
+    }
     document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');active=b.dataset.filter;render()}));
     document.getElementById('catalogSearch').addEventListener('input',e=>{searchTerm=e.target.value.trim().toLowerCase();render();});
     document.getElementById('cartBtn').onclick=()=>document.getElementById('drawer').classList.add('open');document.getElementById('closeCart').onclick=()=>document.getElementById('drawer').classList.remove('open');document.getElementById('veil').onclick=()=>document.getElementById('drawer').classList.remove('open');
