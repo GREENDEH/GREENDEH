@@ -184,7 +184,7 @@
       </div>
       <div class="mini-actions">
         <b id="featuredPrice19">$0</b>
-        <span class="mini-price-note">IVA incluido</span>
+        <span class="mini-price-note">+ IVA 16%</span>
         <button class="mini-add" type="button" onclick="add(19)">+ Agregar</button>
       </div>
     </div>
@@ -293,8 +293,8 @@
             <p>${p.desc}</p>
             <div class="price-row">
               <div class="price">
-                ${p.price!==null?money(unitFinal(p)):'Cotizar'}
-                ${p.price!==null?`<br><small>MXN</small><br><span class="tax-note ${isTaxable(p)?'taxable':''}">${isTaxable(p)?'IVA 16% incluido':'Sin IVA'}</span>`:''}
+                ${p.price!==null?money(p.price):'Cotizar'}
+                ${p.price!==null?`<br><small>MXN</small><br><span class="tax-note ${isTaxable(p)?'taxable':''}">${isTaxable(p)?'+ IVA 16%':'Sin IVA'}</span>`:''}
               </div>
               ${p.price!==null
                 ? `<button class="add" aria-label="Agregar ${p.name}" onclick="add(${p.id})">+</button>`
@@ -317,8 +317,8 @@
           <div class="cart-item">
             <div>
               <strong>${x.name}</strong><br>
-              <small>${money(unitFinal(x))} c/u</small><br>
-              <span class="cart-tax-label">${isTaxable(x)?'IVA 16% incluido':'Sin IVA'}</span>
+              <small>${money(x.price)} c/u</small><br>
+              <span class="cart-tax-label">${isTaxable(x)?'+ IVA 16%':'Sin IVA'}</span>
               <div class="cart-qty" aria-label="Cantidad de ${x.name}">
                 <button class="qty-btn" type="button" onclick="changeQty(${x.id},-1)" aria-label="Restar uno">−</button>
                 <span class="qty-number">${x.qty}</span>
@@ -326,7 +326,7 @@
               </div>
             </div>
             <div style="text-align:right">
-              <strong>${money(unitFinal(x)*x.qty)}</strong>
+              <strong>${money(x.price*x.qty)}</strong>
             </div>
           </div>
         `).join('');
@@ -357,8 +357,8 @@
     });
 
     // Precios de productos destacados según la regla de IVA.
-    document.getElementById('featuredPrice19').textContent=money(unitFinal(products.find(p=>p.id===19)));
-    document.getElementById('featuredPrice110').textContent=money(unitFinal(products.find(p=>p.id===110)));
+    document.getElementById('featuredPrice19').textContent=money(products.find(p=>p.id===19).price);
+    document.getElementById('featuredPrice110').textContent=money(products.find(p=>p.id===110).price);
 
     document.getElementById('cartBtn').onclick=()=>document.getElementById('drawer').classList.add('open');document.getElementById('closeCart').onclick=()=>document.getElementById('drawer').classList.remove('open');document.getElementById('veil').onclick=()=>document.getElementById('drawer').classList.remove('open');
     const WORKER_URL = 'https://grendehmercadopago.greendehcuauhtemoc.workers.dev';
